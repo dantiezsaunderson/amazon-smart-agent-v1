@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4><i class="bi bi-info-circle"></i> Opportunity Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header bg-primary text-white">
+                                <h5><i class="bi bi-shop"></i> Retail Product</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center mb-3">
+                                    {% if opportunity.retail_product.image_url %}
+                                    <img src="{{ opportunity.retail_product.image_url }}" alt="{{ opportunity.retail_product.title }}" class="img-fluid" style="max-height: 200px; object-fit: contain;">
+                                    {% else %}
+                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="bi bi-image fs-1 text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <h5 class="card-title">{{ opportunity.retail_product.title }}</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-secondary">{{ opportunity.retail_product.store }}</span>
+                                    {% if opportunity.retail_product.brand %}
+                                    <span class="badge bg-info">{{ opportunity.retail_product.brand }}</span>
+                                    {% endif %}
+                                    {% if opportunity.retail_product.category %}
+                                    <span class="badge bg-dark">{{ opportunity.retail_product.category }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="card bg-success text-white">
+                                            <div class="card-body p-2 text-center">
+                                                <h6 class="card-title mb-0">Current Price</h6>
+                                                <h4>${{ "%.2f"|format(opportunity.retail_product.price) }}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card bg-secondary text-white">
+                                            <div class="card-body p-2 text-center">
+                                                <h6 class="card-title mb-0">Original Price</h6>
+                                                <h4>
+                                                    {% if opportunity.retail_product.original_price %}
+                                                    ${{ "%.2f"|format(opportunity.retail_product.original_price) }}
+                                                    {% else %}
+                                                    N/A
+                                                    {% endif %}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if opportunity.retail_product.description %}
+                                <div class="mb-3">
+                                    <h6>Description:</h6>
+                                    <p>{{ opportunity.retail_product.description }}</p>
+                                </div>
+                                {% endif %}
+                                <div class="mb-3">
+                                    <h6>Product Details:</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Product ID
+                                            <span class="badge bg-primary rounded-pill">{{ opportunity.retail_product.product_id }}</span>
+                                        </li>
+                                        {% if opportunity.retail_product.upc %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            UPC
+                                            <span class="badge bg-primary rounded-pill">{{ opportunity.retail_product.upc }}</span>
+                                        </li>
+                                        {% endif %}
+                                        {% if opportunity.retail_product.sku %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            SKU
+                                            <span class="badge bg-primary rounded-pill">{{ opportunity.retail_product.sku }}</span>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <a href="{{ opportunity.retail_product.url }}" target="_blank" class="btn btn-primary">
+                                    <i class="bi bi-box-arrow-up-right"></i> View on {{ opportunity.retail_product.store }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header bg-warning text-dark">
+                                <h5><i class="bi bi-amazon"></i> Amazon Product</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center mb-3">
+                                    {% if opportunity.amazon_product.image_url %}
+                                    <img src="{{ opportunity.amazon_product.image_url }}" alt="{{ opportunity.amazon_product.title }}" class="img-fluid" style="max-height: 200px; object-fit: contain;">
+                                    {% else %}
+                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="bi bi-image fs-1 text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <h5 class="card-title">{{ opportunity.amazon_product.title }}</h5>
+                                <div class="mb-3">
+                                    <span class="badge bg-warning text-dark">ASIN: {{ opportunity.amazon_product.asin }}</span>
+                                    {% if opportunity.amazon_product.category %}
+                                    <span class="badge bg-dark">{{ opportunity.amazon_product.category }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="card bg-success text-white">
+                                            <div class="card-body p-2 text-center">
+                                                <h6 class="card-title mb-0">Amazon Price</h6>
+                                                <h4>${{ "%.2f"|format(opportunity.amazon_product.price) }}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card bg-info text-white">
+                                            <div class="card-body p-2 text-center">
+                                                <h6 class="card-title mb-0">Sales Rank</h6>
+                                                <h4>
+                                                    {% if opportunity.amazon_product.sales_rank %}
+                                                    #{{ opportunity.amazon_product.sales_rank }}
+                                                    {% else %}
+                                                    N/A
+                                                    {% endif %}
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Reviews:</h6>
+                                    <div class="d-flex align-items-center">
+                                        {% if opportunity.amazon_product.rating %}
+                                        <div class="me-2">
+                                            {% for i in range(5) %}
+                                                {% if i < opportunity.amazon_product.rating|int %}
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                                {% elif i < opportunity.amazon_product.rating %}
+                                                <i class="bi bi-star-half text-warning"></i>
+                                                {% else %}
+                                                <i class="bi bi-star text-warning"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="me-2">{{ opportunity.amazon_product.rating }}</div>
+                                        {% endif %}
+                                        {% if opportunity.amazon_product.review_count %}
+                                        <div>({{ opportunity.amazon_product.review_count }} reviews)</div>
+                                        {% else %}
+                                        <div>No reviews</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% if opportunity.amazon_product.features %}
+                                <div class="mb-3">
+                                    <h6>Features:</h6>
+                                    <ul>
+                                        {% for feature in opportunity.amazon_product.features %}
+                                        <li>{{ feature }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                                <a href="{{ opportunity.amazon_product.url }}" target="_blank" class="btn btn-warning">
+                                    <i class="bi bi-box-arrow-up-right"></i> View on Amazon
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5><i class="bi bi-calculator"></i> Profit Analysis</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card bg-light mb-3">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title">Profit</h6>
+                                                <h2 class="text-success">${{ "%.2f"|format(opportunity.profit) }}</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card bg-light mb-3">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title">ROI</h6>
+                                                <h2 class="text-primary">{{ "%.1f"|format(opportunity.roi) }}%</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card bg-light mb-3">
+                                            <div class="card-body text-center">
+                                                <h6 class="card-title">Fulfillment Method</h6>
+                                                <h2>{{ opportunity.fulfillment_method }}</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Cost Component</th>
+                                                <th>Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Buy Price</td>
+                                                <td>${{ "%.2f"|format(opportunity.costs.buy_price) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Amazon Fees</td>
+                                                <td>${{ "%.2f"|format(opportunity.costs.amazon_fees) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fulfillment Cost</td>
+                                                <td>${{ "%.2f"|format(opportunity.costs.fulfillment_cost) }}</td>
+                                            </tr>
+                                            {% if opportunity.fulfillment_method == 'FBA' %}
+                                            <tr>
+                                                <td>Shipping to Amazon</td>
+                                                <td>${{ "%.2f"|format(opportunity.costs.shipping_to_amazon) }}</td>
+                                            </tr>
+                                            {% endif %}
+                                            <tr>
+                                                <td>Other Costs</td>
+                                                <td>${{ "%.2f"|format(opportunity.costs.other_costs) }}</td>
+                                            </tr>
+                                            <tr class="table-secondary">
+                                                <th>Total Cost</th>
+                                                <th>${{ "%.2f"|format(opportunity.costs.buy_price + opportunity.costs.amazon_fees + opportunity.costs.fulfillment_cost + opportunity.costs.shipping_to_amazon + opportunity.costs.other_costs) }}</th>
+                                            </tr>
+                                            <tr class="table-primary">
+                                                <th>Amazon Selling Price</th>
+                                                <th>${{ "%.2f"|format(opportunity.amazon_product.price) }}</th>
+                                            </tr>
+                                            <tr class="table-success">
+                                                <th>Net Profit</th>
+                                                <th>${{ "%.2f"|format(opportunity.profit) }}</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('opportunities') }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Opportunities
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

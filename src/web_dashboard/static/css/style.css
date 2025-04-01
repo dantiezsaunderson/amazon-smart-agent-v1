@@ -1,0 +1,121 @@
+/* Custom styles for Amazon Smart Agent dashboard */
+
+/* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+/* Card styles */
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    border-radius: 8px 8px 0 0;
+    font-weight: 600;
+}
+
+.card-header i {
+    margin-right: 8px;
+}
+
+/* Dashboard stats cards */
+#stats-cards .card {
+    transition: transform 0.3s ease;
+}
+
+#stats-cards .card:hover {
+    transform: translateY(-5px);
+}
+
+#stats-cards .display-4 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Table styles */
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Button styles */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.btn i {
+    margin-right: 5px;
+}
+
+/* Footer styles */
+.footer {
+    border-top: 1px solid #e9ecef;
+}
+
+/* Product images */
+.img-thumbnail {
+    border-radius: 6px;
+}
+
+/* Form styles */
+.form-range::-webkit-slider-thumb {
+    background: #0d6efd;
+}
+
+.form-range::-moz-range-thumb {
+    background: #0d6efd;
+}
+
+.form-range::-ms-thumb {
+    background: #0d6efd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #stats-cards .display-4 {
+        font-size: 2rem;
+    }
+    
+    .card-title {
+        font-size: 1rem;
+    }
+}
+
+/* Loading spinner */
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Alert styles */
+.alert {
+    border-radius: 8px;
+}
+
+/* Badge styles */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}

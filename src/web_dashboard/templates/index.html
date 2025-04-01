@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4><i class="bi bi-speedometer2"></i> Dashboard Overview</h4>
+            </div>
+            <div class="card-body">
+                <div class="row" id="stats-cards">
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-primary text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Opportunities</h5>
+                                <h2 class="display-4" id="total-opportunities">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-success text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Potential Profit</h5>
+                                <h2 class="display-4" id="total-profit">$0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-info text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Average ROI</h5>
+                                <h2 class="display-4" id="average-roi">0%</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-warning text-dark h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Stores Scanned</h5>
+                                <h2 class="display-4" id="stores-count">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4><i class="bi bi-graph-up"></i> Opportunities by Store</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="storeChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4><i class="bi bi-trophy"></i> Top Opportunities</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Store</th>
+                                <th>Profit</th>
+                                <th>ROI</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-opportunities">
+                            <tr>
+                                <td colspan="5" class="text-center">Loading data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4><i class="bi bi-search"></i> Quick Actions</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <i class="bi bi-search fs-1 mb-3 text-primary"></i>
+                                <h5 class="card-title">New Scan</h5>
+                                <p class="card-text">Start a new scan to find profitable arbitrage opportunities.</p>
+                                <a href="{{ url_for('scan') }}" class="btn btn-primary">Start Scan</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <i class="bi bi-list-check fs-1 mb-3 text-success"></i>
+                                <h5 class="card-title">View Opportunities</h5>
+                                <p class="card-text">Browse all profitable arbitrage opportunities.</p>
+                                <a href="{{ url_for('opportunities') }}" class="btn btn-success">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <i class="bi bi-filter fs-1 mb-3 text-warning"></i>
+                                <h5 class="card-title">High ROI Only</h5>
+                                <p class="card-text">View opportunities with 50%+ ROI.</p>
+                                <a href="{{ url_for('opportunities', min_roi=50) }}" class="btn btn-warning">High ROI</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch dashboard stats
+    fetch('/api/stats')
+        .then(response => response.json())
+        .then(data => {
+            // Update stats cards
+            document.getElementById('total-opportunities').textContent = data.total_opportunities;
+            document.getElementById('total-profit').textContent = '$' + data.total_profit.toFixed(2);
+            document.getElementById('average-roi').textContent = data.average_roi.toFixed(1) + '%';
+            document.getElementById('stores-count').textContent = Object.keys(data.store_counts).length;
+            
+            // Create store chart
+            const storeLabels = Object.keys(data.store_counts);
+            const storeCounts = Object.values(data.store_counts);
+            
+            const ctx = document.getElementById('storeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: storeLabels,
+                    datasets: [{
+                        data: storeCounts,
+                        backgroundColor: [
+                            '#007bff',
+                            '#28a745',
+                            '#ffc107',
+                            '#dc3545',
+                            '#6f42c1',
+                            '#fd7e14'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+            
+            // Update top opportunities table
+            const topOppsTable = document.getElementById('top-opportunities');
+            topOppsTable.innerHTML = '';
+            
+            if (data.top_opportunities.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="5" class="text-center">No opportunities found</td>';
+                topOppsTable.appendChild(row);
+            } else {
+                data.top_opportunities.forEach(opp => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${opp.title.substring(0, 30)}...</td>
+                        <td>${opp.store}</td>
+                        <td>$${opp.profit.toFixed(2)}</td>
+                        <td>${opp.roi.toFixed(1)}%</td>
+                        <td><a href="/opportunity/${opp.id}" class="btn btn-sm btn-primary">View</a></td>
+                    `;
+                    topOppsTable.appendChild(row);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching stats:', error);
+            alert('Error loading dashboard data. Please try again later.');
+        });
+});
+</script>
+{% endblock %}

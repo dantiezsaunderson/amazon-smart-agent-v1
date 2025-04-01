@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4><i class="bi bi-search"></i> New Scan</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('scan') }}">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-primary text-white">
+                                    <h5><i class="bi bi-shop"></i> Select Store</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="store" id="store_walmart" value="walmart" checked>
+                                                <label class="form-check-label" for="store_walmart">
+                                                    <img src="https://logo.clearbit.com/walmart.com" alt="Walmart" class="img-thumbnail me-2" style="width: 30px; height: 30px;">
+                                                    Walmart
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="store" id="store_target" value="target">
+                                                <label class="form-check-label" for="store_target">
+                                                    <img src="https://logo.clearbit.com/target.com" alt="Target" class="img-thumbnail me-2" style="width: 30px; height: 30px;">
+                                                    Target
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="store" id="store_dollartree" value="dollartree">
+                                                <label class="form-check-label" for="store_dollartree">
+                                                    <img src="https://logo.clearbit.com/dollartree.com" alt="Dollar Tree" class="img-thumbnail me-2" style="width: 30px; height: 30px;">
+                                                    Dollar Tree
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="store" id="store_ebay" value="ebay">
+                                                <label class="form-check-label" for="store_ebay">
+                                                    <img src="https://logo.clearbit.com/ebay.com" alt="eBay" class="img-thumbnail me-2" style="width: 30px; height: 30px;">
+                                                    eBay
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="store" id="store_all" value="all">
+                                                <label class="form-check-label" for="store_all">
+                                                    <i class="bi bi-shop-window me-2"></i>
+                                                    All Stores
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header bg-success text-white">
+                                    <h5><i class="bi bi-tags"></i> Select Category</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category" id="category_electronics" value="electronics" checked>
+                                                <label class="form-check-label" for="category_electronics">
+                                                    <i class="bi bi-laptop me-2"></i>
+                                                    Electronics
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category" id="category_toys" value="toys">
+                                                <label class="form-check-label" for="category_toys">
+                                                    <i class="bi bi-controller me-2"></i>
+                                                    Toys & Games
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category" id="category_home" value="home">
+                                                <label class="form-check-label" for="category_home">
+                                                    <i class="bi bi-house me-2"></i>
+                                                    Home & Kitchen
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category" id="category_clothing" value="clothing">
+                                                <label class="form-check-label" for="category_clothing">
+                                                    <i class="bi bi-bag me-2"></i>
+                                                    Clothing
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="category" id="category_all" value="all">
+                                                <label class="form-check-label" for="category_all">
+                                                    <i class="bi bi-grid-3x3-gap me-2"></i>
+                                                    All Categories
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header bg-warning text-dark">
+                                    <h5><i class="bi bi-percent"></i> Discount Settings</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <label for="discount" class="form-label">Minimum Discount Percentage:</label>
+                                            <div class="input-group mb-3">
+                                                <input type="range" class="form-range" id="discount_range" min="0" max="80" step="10" value="40" oninput="updateDiscountValue(this.value)">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="discount" name="discount" min="0" max="80" value="40" oninput="updateDiscountRange(this.value)">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <div class="form-text">Set to 0 for all products regardless of discount</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill"></i> Scanning may take a few minutes depending on the selected options. Please be patient.
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-search"></i> Start Scan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateDiscountValue(val) {
+    document.getElementById('discount').value = val;
+}
+
+function updateDiscountRange(val) {
+    document.getElementById('discount_range').value = val;
+}
+</script>
+{% endblock %}
