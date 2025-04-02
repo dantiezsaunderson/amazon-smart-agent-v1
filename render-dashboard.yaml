@@ -1,0 +1,27 @@
+# Render deployment configuration for Amazon Smart Agent
+service: web
+name: amazon-smart-agent-dashboard
+env: python
+region: ohio
+plan: free
+branch: main
+repo: https://github.com/dantiezsaunderson/amazon-smart-agent-v1.git
+buildCommand: pip install -r requirements.txt
+startCommand: python -m src.web_dashboard
+envVars:
+  - key: DASHBOARD_HOST
+    value: 0.0.0.0
+  - key: DASHBOARD_PORT
+    value: 10000
+  - key: FLASK_DEBUG
+    value: False
+  - key: TELEGRAM_BOT_TOKEN
+    value: 7738524612:AAFmYMZ2FPPMXPxGKJ2JQrurhKNYPoyNhgk
+  - key: OPENAI_API_KEY
+    sync: false
+  - key: AMAZON_ACCESS_KEY
+    sync: false
+  - key: AMAZON_SECRET_KEY
+    sync: false
+  - key: AMAZON_ASSOCIATE_TAG
+    sync: false
