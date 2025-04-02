@@ -213,20 +213,39 @@ class ArbitrageOpportunityModel(Base):
 class ProductDatabase:
     """Database manager for product storage"""
     
-    def __init__(self, db_url: str = None):
+    def __init__(self, db_path: str = None, db_url: str = None):
         """
         Initialize database manager
         
         Args:
+            db_path: Path to SQLite database file (for testing)
             db_url: SQLAlchemy database URL (e.g., 'sqlite:///database/products.db')
         """
-        if db_url is None:
-            db_url = os.getenv('DATABASE_URL', 'sqlite:///database/products.db')
-        
-        # Create directory if it doesn't exist
-        if db_url.startswith('sqlite:///'):
-            db_path = db_url.replace('sqlite:///', '')
-            os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        # Handle special case for in-memory database (for testing)
+        if db_path == ":memory:":
+            db_url = "sqlite:///:memory:"
+        # Use provided db_url if specified
+        elif db_url is not None:
+            pass
+        # Use environment variable if available
+        elif os.getenv('DATABASE_URL'):
+            db_url = os.getenv('DATABASE_URL')
+        # Otherwise, determine appropriate path based on environment
+        else:
+            if os.getenv('RENDER') == 'true':
+                # Use /tmp directory on Render
+                db_path = os.path.join('/tmp', 'amazon_smart_agent.db')
+                db_url = f'sqlite:///{db_path}'
+                logger.info(f"Running on Render, using database at {db_path}")
+            else:
+                # Use local path for development
+                db_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'data')
+                db_path = os.path.join(db_dir, 'amazon_smart_agent.db')
+                db_url = f'sqlite:///{db_path}'
+                
+                # Create directory if it doesn't exist
+                os.makedirs(db_dir, exist_ok=True)
+                logger.info(f"Using database at {db_path}")
         
         self.engine = create_engine(db_url)
         self.Session = sessionmaker(bind=self.engine)
