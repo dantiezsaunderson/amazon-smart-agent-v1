@@ -22,6 +22,7 @@ python-telegram-bot>=13.7
 flask>=2.0.1
 flask-restful>=0.3.9
 flask-cors>=3.0.10
+gunicorn>=20.1.0
 
 # CLI Tool
 click>=8.0.1
